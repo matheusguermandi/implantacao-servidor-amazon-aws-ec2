@@ -1,7 +1,7 @@
 ![image20](https://user-images.githubusercontent.com/27836893/90990444-da9fdc00-e577-11ea-89eb-71590afb63c2.png)
 
 <h1 align="center">
- Implatacao de Servidor - Amazon AWS EC2 
+ Implantação de Servidor - Amazon AWS EC2 
 </h1>
 
 ### O que é o Amazon EC2
@@ -33,3 +33,7 @@ O Amazon EC2 fornece os seguintes recursos:
 * Metadados, conhecidos como tags, que você pode criar e atribuir aos recursos do Amazon EC2
 
 * Redes virtuais isoladas logicamente do restante da Nuvem AWS que você pode criar e conectar à sua própria rede, conhecidas como nuvens privadas virtuais (VPCs)
+
+### Primeiros passos
+* Realizar o cadastro e login na amazon AWS
+
