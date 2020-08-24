@@ -35,6 +35,7 @@ O Amazon EC2 fornece os seguintes recursos:
 * Redes virtuais isoladas logicamente do restante da Nuvem AWS que você pode criar e conectar à sua própria rede, conhecidas como nuvens privadas virtuais (VPCs)
 
 <hr />
+<hr />
 
 ### Criando primeira VM em Nuvem - EC2
 * Realize o cadastro e/ou login na Amazon AWS
@@ -76,6 +77,7 @@ O Amazon EC2 fornece os seguintes recursos:
 * OBS: O par de chaves que foi gerado vai ser utilizado para acessar a instancia do servidor EC2
 
 <hr />
+<hr />
 
 ### Configurando acesso à instância EC2
 
@@ -84,9 +86,10 @@ O Amazon EC2 fornece os seguintes recursos:
 * Utilizando o IP atual da instância e o par de chaves que foi gerado na estapa 08 durante a criação da mesma, realize o acesso
 
 <hr />
+<hr />
 
 ### Apache, liberação de portas e VIM
-* Inicie e acesse a instância do servidor pelo Termius
+* Inicie a instância no Console AWS e acesse o servidor pelo Termius
 * Para realizar o update e o apgrade, execute: 
 
 ```
@@ -147,8 +150,16 @@ sudo vim /etc/apache2/apache2.conf
 * OBS: O KeepAlive permite que o servidor utilize a mesma conexão para transferir múltiplos arquivos e é uma ótima maneira de reduzir o uso de recursos e aumentar a velocidade do seu site ao mesmo tempo.
 
 <hr />
+<hr />
 
 ### Virtual Host
+* Inicie a instância no Console AWS e acesse o servidor pelo Termius
+* Para realizar o update e o apgrade, execute: 
+
+```
+sudo apt update
+sudo apt upgrade
+```
 
 * Para criar a pasta onde vai ficar o virtual Host e a pasta de logs, execute: 
 ```
@@ -212,10 +223,13 @@ sudo service apache2 restart
 * Para finalizar, coloque o IP do servidor no navegador e teste se está funcionando corretamente
 
 <hr />
+<hr />
 
 ### Instalando e Configurando o PostgreSQL
 
-* Antes iniciar o procedimento, execute:
+* Inicie a instância no Console AWS e acesse o servidor pelo Termius
+* Para realizar o update e o apgrade, execute: 
+
 ```
 sudo apt update
 sudo apt upgrade
@@ -266,11 +280,68 @@ sudo service postgresql restart
 * Para efetuar a liberação da porta 5432, adicione uma nova regra de entrada em sua instância no grupo de seguração utilizado
 ![Capturar](https://user-images.githubusercontent.com/27836893/91095612-0c29ad80-e633-11ea-960a-ed5a8a4df226.PNG)
 
+* Para finalizar, acesse o postgresql remotamente e teste se está funcionando corretamente
+
+<hr />
 <hr />
 
+### Instalando e Configurando o MySQL, PHP e PHPMyAdmin
 
+* Inicie a instância no Console AWS e acesse o servidor pelo Termius
+* Para realizar o update e o apgrade, execute: 
 
+```
+sudo apt update
+sudo apt upgrade
+```
 
+* Para instalar o MySQL, execute: 
+```
+ sudo apt install mysql-server-5.7
+```
 
+* Para realizar alguns ajustes na configuração e criar a nova senha, execute:
+```
+sudo mysql_secure_installation
+```
 
+* Para criar um super usuário no mysql, execute:
+```
+sudo mysql
+GRANT ALL PRIVILEGES ON *.* TO 'ids'@'localhost' IDENTIFIED BY 'senhaescolhida';
+```
 
+* Para liberar o acesso remoto, execute:
+```
+sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
+Comente a linha do bind-address
+```
+
+* Para instalar o PHP e ativar seus diretórios, execute
+```
+sudo apt install php7.2 libapache2-mod-php7.2 php7.2-mysql php7.2-pgsql
+
+sudo mkdir /var/log/php
+sudo chown www-data /var/log/php
+
+OBS: (www-data é usuário do apache)
+```
+
+* Crie um arquivo teste para verificar as funcionalidades.
+```
+sudo vim /var/www/html/phpinfo.php
+
+<?php
+  phpinfo();
+?>
+```
+
+* Para instalar o phpmyadmin, execute
+```
+sudo apt install phpmyadmin
+
+OBS: Selecione o servidor apache2 pois é o utilizado nesse cenário
+```
+
+<hr />
+<hr />
