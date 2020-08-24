@@ -345,3 +345,47 @@ OBS: Selecione o servidor apache2 pois é o utilizado nesse cenário
 
 <hr />
 <hr />
+
+### Configurando Páginas Pessoais
+
+* Inicie a instância no Console AWS e acesse o servidor pelo Termius
+* Para realizar o update e o apgrade, execute: 
+
+```
+sudo apt update
+sudo apt upgrade
+```
+
+* Para ativar o módulo do usário logado, execute:
+```
+sudo a2enmod userdir
+```
+
+* Para atualizar a flag php_admin_flag engine Off, execute:
+```
+sudo /etc/apache2/mods-available/php7.2.conf
+
+Comente a linha:
+php_admin_flag engine Off
+```
+
+* Reinicie o apache
+```
+sudo service apache2 restart
+```
+
+* Para criar o diretório public_html, execute: 
+```
+mkdir ~/public_html
+```
+
+* Para criar um template de pré configuração para todos os usuários, execute:
+```
+sudo mkdir /etc/skel/public_html
+sudo chmod 0700 /etc/skel/public_html 
+
+OBS: Com isso os espaços pessoais “herdam” todas as potencialidades do site principal, ou seja, o utilizador tem ativado o suporte para php, as ligações seguras, acesso à base
+de dados MySQL, etc.
+```
+
+<hr /><hr />
