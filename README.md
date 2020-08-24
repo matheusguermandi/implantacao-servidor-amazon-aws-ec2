@@ -79,11 +79,74 @@ O Amazon EC2 fornece os seguintes recursos:
 
 ### Configurando acesso à instância EC2
 
-* Para acessar à instacia EC2, será utilizado o software Termius, que por sua vez é um cliente SSH
+* Para acessar à instância EC2, será utilizado o software Termius, que por sua vez é um cliente SSH
 * Realize o download do software nesse link [Termius](https://termius.com)
 * Utilizando o IP atual da instância e o par de chaves que foi gerado na estapa 08 durante a criação da mesma, realize o acesso
 
+<hr />
 
+### Apache, liberação de portas e VIM
+* Inicie e acesse a instância do servidor pelo Termius
+* Para realizar o update e o apgrade, execute: 
+
+```
+sudo apt update
+sudo apt upgrade
+```
+ 
+* Para instalar o apache, execute: 
+```
+sudo apt install apache2
+```
+
+* Para efetuar a liberação da porta 80, adicione uma nova regra de entrada em sua instância no grupo de seguração
+![Capturar](https://user-images.githubusercontent.com/27836893/91085078-49863f00-e623-11ea-99fe-89bf2c11e3cb.PNG)
+
+* Para instalar o editor de texto VIM, execute:
+```
+sudo apt install vim
+```
+
+* Para configurar as opções do editor, execute: 
+```
+sudo vi /etc/vim/vimrc/
+```
+
+* Aperte I para entrar no modo de INSERÇÃO e descomente as seguintes linhas: 
+```
+if has("syntax")
+ syntax on
+endif
+
+set background=dark
+
+if has("autocmd")
+ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal$
+endif
+
+if has("autocmd")
+ filetype plugin indent on
+endif
+```
+
+* Incluir no final do arquivo 
+```
+set nu
+set cursorline
+```
+
+* Aperte ESC e digite :wq! para salvar e sair
+
+* Agora com o VIM configurado, execute o seguinte comando para configurar o apache2:
+```
+sudo vim /etc/apache2/apache2.conf
+```
+
+* Dentro do arquivo, edite a linha do KeepAlive para ON
+
+* OBS: O KeepAlive permite que o servidor utilize a mesma conexão para transferir múltiplos arquivos e é uma ótima maneira de reduzir o uso de recursos e aumentar a velocidade do seu site ao mesmo tempo.
+
+<hr />
 
 
 
