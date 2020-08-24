@@ -148,5 +148,79 @@ sudo vim /etc/apache2/apache2.conf
 
 <hr />
 
+### Virtual Host
+
+* Para criar a pasta onde vai ficar o virtual Host e a pasta de logs, execute: 
+```
+ sudo mkdir -p /var/www/html/ids.local/public_html
+ sudo mkdir /var/www/html/ids.local/logs
+```
+
+* Criamos agora um arquivo de chamada para ids
+```
+sudo  vim /etc/apache2/sites-available/ids.local.conf
+```
+
+* Dentro deste arquivo colocamos a seguinte descrição
+```
+<VirtualHost *:80>
+ ServerAdmin webmaster@ids.local
+ ServerName ids.local
+ ServerAlias www.ids.local
+ DocumentRoot /var/www/html/ids.local/public_html/
+ ErrorLog /var/www/html/ids.local/logs/error.log
+ CustomLog /var/www/html/ids.local/logs/access.log combined
+</VirtualHost>
+```
+
+* Para conceder as permissões ao usuário logado
+```
+sudo chown -R $USER:$USER /var/www/html/ids.local/public_html
+sudo chmod -R 755 /var/www/html/
+```
+
+* Criando um arquivo de exemplo e preenchendo com html:
+```
+sudo vim /var/www/html/ids.local/public_html/index.html
+
+<html>
+ <head>
+   <title>Bem Vindo</title>
+   <meta charset="UTF-8">
+ </head>
+ <body>
+    <h1>Parabéns! O seu virtual host está funcionando!</h1>
+ </body>
+</html>
+```
+
+* Para criar um link simbólico, execute:
+```
+sudo a2ensite ids.local.conf
+```
+
+* Agora desative o link principal:
+```
+sudo a2dissite 000-default.conf
+```
+
+* reinicie o servidor apache2 
+```
+sudo service apache2 restart
+```
+
+* Para finalizar, coloque o IP do servidor no navegador e teste se está funcionando corretamente
+
+<hr />
+
+
+
+
+
+
+
+
+
+
 
 
