@@ -99,7 +99,7 @@ sudo apt upgrade
 sudo apt install apache2
 ```
 
-* Para efetuar a liberação da porta 80, adicione uma nova regra de entrada em sua instância no grupo de seguração
+* Para efetuar a liberação da porta 80, adicione uma nova regra de entrada em sua instância no grupo de seguração utilizado
 ![Capturar](https://user-images.githubusercontent.com/27836893/91085078-49863f00-e623-11ea-99fe-89bf2c11e3cb.PNG)
 
 * Para instalar o editor de texto VIM, execute:
@@ -213,10 +213,60 @@ sudo service apache2 restart
 
 <hr />
 
+### Instalando e Configurando o PostgreSQL
 
+* Antes iniciar o procedimento, execute:
+```
+sudo apt update
+sudo apt upgrade
+```
 
+* Para instalar o postgres, execute:
+```
+sudo apt install postgresql-10
+```
 
+* Para habilitar/ativar o usuário no postgres, execute:
+```
+sudo -u postgres psql
+alter user postgres with encrypted password 'senhaescolhida';
+```
 
+* Para habilitar acesso remoto ao servidor, execute:
+```
+sudo vim /etc/postgresql/10/main/postgresql.config
+
+Modifique 
+# listen_addresses = 'localhost' # what IP address(es) to listen on
+
+Para
+listen_addresses = '*' # what IP address(es) to listen on
+
+OBS: descomentando e trocando 'localhost' por '*'
+```
+
+* Para modificar as regras de liberação, execute:
+```
+sudo vim /etc/postgresql/10/main/pg_hba.conf
+
+Atualize as seguintes linhas conforme o exemplo a baixo:
+
+# "local" is for Unix domain socket connections only
+local all all  trust
+
+# IPv4 local connections:
+host all all 0.0.0.0/0 trust
+```
+
+* reinicie o servico postgresql
+```
+sudo service postgresql restart
+```
+
+* Para efetuar a liberação da porta 5432, adicione uma nova regra de entrada em sua instância no grupo de seguração utilizado
+![Capturar](https://user-images.githubusercontent.com/27836893/91095612-0c29ad80-e633-11ea-960a-ed5a8a4df226.PNG)
+
+<hr />
 
 
 
