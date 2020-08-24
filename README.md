@@ -42,36 +42,48 @@ O Amazon EC2 fornece os seguintes recursos:
 * Localize os serviços da AWS -> Computação -> clique em EC2
 * Na nova página, clique em Launch Instance para criar sua nova instância EC2 <br /><br />
 
-* Etapa 1: Escolha uma Amazon Machine Image (AMI) || Step 1: Choose an Amazon Machine Image (AMI)
+* Etapa 01: Escolha uma Amazon Machine Image (AMI) || Step 01: Choose an Amazon Machine Image (AMI)
    * Ubuntu Server 18.04 LTS (HVM), SSD Volume Type | 64-bit (x86) <br /><br />
    
-* Etapa 2: Escolha um tipo de instância || Step 2: Choose an Instance Type
+* Etapa 02: Escolha um tipo de instância || Step 02: Choose an Instance Type
    ![instance type](https://user-images.githubusercontent.com/27836893/90992918-fe1f5280-e588-11ea-8289-e48ea0260ce4.PNG) <br /><br />
    
-* Etapa 3: configurar os detalhes da instância || Step 3: Configure Instance Details
+* Etapa 03: configurar os detalhes da instância || Step 03: Configure Instance Details
    * Mantenha as configurações padrão <br /><br />
    
-* Etapa 4: adicionar armazenamento || Step 4: Add Storage
+* Etapa 04: adicionar armazenamento || Step 04: Add Storage
    * Mantenha as configurações padrão<br /><br />
 
-* Etapa 5: adicionar tags || Step 5: Add Tags
+* Etapa 05: adicionar tags || Step 05: Add Tags
    * Mantenha as configurações padrão<br /><br />
 
-* Etapa 6: configurar o grupo de segurança || Step 6: Configure Security Group
+* Etapa 06: configurar o grupo de segurança || Step 06: Configure Security Group
    * Crie um novo grupo de segurança
    * De um nome para o grupo de segurança
    * Coloque uma breve descrição para o grupo de segurança<br /><br />
 
-* Etapa 7: Revise o lançamento da instância || Step 7: Review Instance Launch
+* Etapa 07: Revise o lançamento da instância || Step 07: Review Instance Launch
    * Realize a revisão da instancia antes de finalizar
    * Clique em Lançamento/Launch <br /><br />
 
-* Etapa 8: Selecione um par de chaves existente ou crie um novo par de chaves || Select an existing key pair or create a new key pair
-   * Selecione - Criar um novo par de chaves
+* Etapa 08: Selecione um par de chaves existente ou crie um novo par de chaves || Step 08: Select an existing key pair or create a new key pair
+   * Selecione criar um novo par de chaves
    * De um nome para o par de chaves
    * Realize o download do seu par de chaves
    * Salve esse arquivo em um lugar seguro 
    * Realize um backup desse arquivo em um lugar seguro<br /><br />
    
 * OBS: O par de chaves que foi gerado vai ser utilizado para acessar a instancia do servidor EC2
+
+<hr />
+
+### Configurando acesso à instância EC2
+
+* Para acessar à instacia EC2, será utilizado o software Termius, que por sua vez é um cliente SSH
+* Realize o download do software nesse link [Termius](https://termius.com)
+* Utilizando o IP atual da instância e o par de chaves que foi gerado na estapa 08 durante a criação da mesma, realize o acesso
+
+
+
+
 
