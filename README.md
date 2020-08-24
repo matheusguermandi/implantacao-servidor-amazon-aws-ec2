@@ -1,7 +1,7 @@
 ![image20](https://user-images.githubusercontent.com/27836893/90990444-da9fdc00-e577-11ea-89eb-71590afb63c2.png)
 
 <h1 align="center">
- Implantação de Servidor - Amazon AWS EC2 
+ Implantação de Servidor | Amazon AWS - EC2 
 </h1>
 
 ### O que é o Amazon EC2
@@ -34,6 +34,44 @@ O Amazon EC2 fornece os seguintes recursos:
 
 * Redes virtuais isoladas logicamente do restante da Nuvem AWS que você pode criar e conectar à sua própria rede, conhecidas como nuvens privadas virtuais (VPCs)
 
-### Primeiros passos
-* Realizar o cadastro e login na amazon AWS
+<hr />
+
+### Criando primeira VM em Nuvem - EC2
+* Realize o cadastro e/ou login na Amazon AWS
+* Navegue até o Console de gerenciamento da AWS
+* Localize os serviços da AWS -> Computação -> clique em EC2
+* Na nova página, clique em Launch Instance para criar sua nova instância EC2 <br /><br />
+
+* Etapa 1: Escolha uma Amazon Machine Image (AMI) || Step 1: Choose an Amazon Machine Image (AMI)
+   * Ubuntu Server 18.04 LTS (HVM), SSD Volume Type | 64-bit (x86) <br /><br />
+   
+* Etapa 2: Escolha um tipo de instância || Step 2: Choose an Instance Type
+   ![instance type](https://user-images.githubusercontent.com/27836893/90992918-fe1f5280-e588-11ea-8289-e48ea0260ce4.PNG) <br /><br />
+   
+* Etapa 3: configurar os detalhes da instância || Step 3: Configure Instance Details
+   * Mantenha as configurações padrão <br /><br />
+   
+* Etapa 4: adicionar armazenamento || Step 4: Add Storage
+   * Mantenha as configurações padrão<br /><br />
+
+* Etapa 5: adicionar tags || Step 5: Add Tags
+   * Mantenha as configurações padrão<br /><br />
+
+* Etapa 6: configurar o grupo de segurança || Step 6: Configure Security Group
+   * Crie um novo grupo de segurança
+   * De um nome para o grupo de segurança
+   * Coloque uma breve descrição para o grupo de segurança<br /><br />
+
+* Etapa 7: Revise o lançamento da instância || Step 7: Review Instance Launch
+   * Realize a revisão da instancia antes de finalizar
+   * Clique em Lançamento/Launch <br /><br />
+
+* Etapa 8: Selecione um par de chaves existente ou crie um novo par de chaves || Select an existing key pair or create a new key pair
+   * Selecione - Criar um novo par de chaves
+   * De um nome para o par de chaves
+   * Realize o download do seu par de chaves
+   * Salve esse arquivo em um lugar seguro 
+   * Realize um backup desse arquivo em um lugar seguro<br /><br />
+   
+* OBS: O par de chaves que foi gerado vai ser utilizado para acessar a instancia do servidor EC2
 
