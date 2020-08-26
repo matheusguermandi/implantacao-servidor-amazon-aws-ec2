@@ -248,7 +248,7 @@ alter user postgres with encrypted password 'senhaescolhida';
 
 * Para habilitar acesso remoto ao servidor, execute:
 ```
-sudo vim /etc/postgresql/10/main/postgresql.config
+sudo vim /etc/postgresql/10/main/postgresql.conf
 
 Modifique 
 # listen_addresses = 'localhost' # what IP address(es) to listen on
@@ -269,7 +269,7 @@ Atualize as seguintes linhas conforme o exemplo a baixo:
 local all all  trust
 
 # IPv4 local connections:
-host all all 0.0.0.0/0 trust
+host all all 0.0.0.0/0  md5
 ```
 
 * reinicie o servico postgresql
