@@ -112,7 +112,7 @@ sudo apt install vim
 
 * Para configurar as opções do editor, execute: 
 ```
-sudo vi /etc/vim/vimrc/
+sudo vim /etc/vim/vimrc/
 ```
 
 * Aperte I para entrar no modo de INSERÇÃO e descomente as seguintes linhas: 
