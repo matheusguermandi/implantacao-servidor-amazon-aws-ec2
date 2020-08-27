@@ -329,7 +329,7 @@ OBS: (www-data é usuário do apache)
 
 * Crie um arquivo teste para verificar as funcionalidades.
 ```
-sudo vim /var/www/html/phpinfo.php
+sudo vim /var/www/html/ids.local/public_html/phpinfo.php
 
 <?php
   phpinfo();
