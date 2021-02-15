@@ -389,3 +389,58 @@ de dados MySQL, etc.
 ```
 
 <hr /><hr />
+
+### Configurando Servidor DNS Gratuito - NOIP
+
+* O primeiro passo é criar uma conta no site do serviço gratuito no-ip https://www.noip.com
+
+* Após ter criado a conta, inicialize sua instância na AWS e pegue o IP para configurar o domínio no site
+
+* Feitas as configurações no site do serviço, agora é a hora de configurar o nosso servidor de modo a que ele envie seu novo IP para o no-ip a intervalos regulares, o que faz com que precisemos decorar somente o domínio que registramos, e não mais o IP. Isso facilita a configuração do Termius, por exemplo, não sendo mais necessário mudar o IP nele a cada vez que a instância é parada e iniciada novamente
+
+* Primeiramente vamos fazer o download do arquivo do cliente e descompactá-lo no nosso servidor 
+
+* OBS: Para executar o comando make, que faz a compilação dos arquivos e gera o binário, são necessários dois pacotes que não estão instalados por padrão no Ubuntu (normalmente): o próprio make e o gcc.
+
+```
+sudo apt install make
+sudo apt install gcc
+cd /usr/local/src
+wget https:www.noip.com/client/linux/noip-duc-linux.tar.gz
+tar xf noip-duc-linux.tar.gz
+cd noip-2.1.9-1/
+make install
+```
+
+* Depois de feita a instalação, é necessário configurar o cliente no-ip, e isso é feito com o comando
+```
+/usr/local/bin/noip2 -C
+```
+
+* Algumas perguntas serão feitas: e-mail cadastrado no site no-ip, senha, qual o tempo de atualização do IP (em minutos), se deseja salvar as alterações e qual o arquivo de configuração.
+
+* Feita a instalação e configuração, é hora de colocar o serviço para rodar. O comando por sua vez, executado no terminal, faz com o que o serviço passe a rodar, mas caso o servidor seja reinicializado, ele precisa ser rodado novamente.
+```
+/usr/local/bin/noip2
+```
+
+* Uma forma prática de automatizar a execução de um comando qualquer, é criando um arquivo chamado ```rc.local``` dentro do diretório ```etc``` e dar permissão de execussão para ele. Para fazer isso, execute os seguintes comandos
+```
+cd etc/
+sudo vim rc.local
+```
+
+* Dentro desse arquivo adicione as seguintes linhas 
+```
+#!/bin/bash
+/usr/local/bin/noip2
+```
+
+* Para dar permissão de execução ao scritp digite 
+```
+sudo chmod +x rc.local
+```
+
+* A partir deste momento, toda vez que o servidor for reiniciado, o arquivo ```rc.local``` será lido e o seu conteúdo interpretado, e o cliente noip voltará a ser executado automaticamente.
+
+<hr /><hr />
