@@ -405,9 +405,11 @@ de dados MySQL, etc.
 ```
 sudo apt install make
 sudo apt install gcc
+
 cd /usr/local/src
 wget https:www.noip.com/client/linux/noip-duc-linux.tar.gz
 tar xf noip-duc-linux.tar.gz
+
 cd noip-2.1.9-1/
 make install
 ```
@@ -444,3 +446,161 @@ sudo chmod +x rc.local
 * A partir deste momento, toda vez que o servidor for reiniciado, o arquivo ```rc.local``` será lido e o seu conteúdo interpretado, e o cliente noip voltará a ser executado automaticamente.
 
 <hr /><hr />
+
+### Instalando e Configurando Apache Tomcat
+
+* Apache Tomcat é um servidor web responsável por interpretar códigos java para web (arquivos .jsp). Com ele é possível portar toda versatilidade e capacidade do java server pages, criando paginas web dinâmicas e implementando sistemas de alta performance. 
+
+* Inicialmente é necessário fazer a instalação do java. No Linux existe uma implementação opensourse do JDK e JRE.
+
+```
+sudo apt install default-jdk default-jre
+```
+
+* OBS: No comando será instalado a última versão do java, neste momento a versão 11, caso queira instalar a versão 8 utilize
+```
+sudo apt install openjdk-8-jdk openjdk-8-jre
+```
+
+* Crie um diretório para a instalação, nesse procedimento iremos usar um pacote, para ter acesso ao painel de gerenciamento
+```
+sudo mkdir /opt/tomcat
+```
+
+* Baixe o pacote mais atual, tar.gz do site Tomcat (https://tomcat.apache.org/download-90.cgi#9.0.37), e use junto ao comando, a seguir.
+```
+cd /tmp
+
+curl -O https://downloads.apache.org/tomcat/tomcat9/v9.0.38/bin/apache-tomcat-9.0.38.tar.gz
+
+cd /opt/tomcat
+
+sudo tar xzvf /tmp/apache-tomcat-9.0.38.tar.gz -C /opt/tomcat --strip-components=1
+```
+
+* É importante para a segurança, ter um usuário especifico para usar o tomcat, por conta disso vamos criar um usuário especifico com os seguinte comandos 
+```
+sudo groupadd tomcat
+
+sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+
+sudo chgrp -R tomcat /opt/tomcat
+
+sudo chmod -R g+r conf
+
+sudo chmod g+x conf
+
+sudo chown -R tomcat webapps/ work/ temp/ logs/
+```
+
+* Vamos agora criar um novo arquivo único para executar o Tomcat como um serviço
+```
+sudo vim /etc/systemd/system/tomcat.service
+```
+
+* Nesse arquivo, adicione as informações conforme aqui indicado 
+```
+[Unit]
+Description=Apache Tomcat Web Application Container
+After=network.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+Environment=CATALINA_Home=/opt/tomcat
+Environment=CATALINA_BASE=/opt/tomcat
+Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+Environment='JAVA_OPTS.awt.headless=true -Djava.security.egd=file:/dev/v/urandom'
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/opt/tomcat/bin/shutdown.sh
+
+User=tomcat
+Group=tomcat
+UMask=0007
+RestartSec=10
+Restart=always
+
+[Install]
+
+WantedBy=multi-user.target
+```
+
+* Em seguida, notifique o sistema que você criou um novo arquivo executando a seguinte linha de comando:
+```
+sudo systemctl daemon-reload
+```
+
+* Os seguintes comandos vão permitir que você execute o serviço Tomcat
+```
+sudo su
+
+cd /opt/tomcat/bin
+
+./startup.sh run
+```
+
+* Agora vamos adicionar um login no usuário Tomcat, para isso edite o arquivo tomcat-users.xml
+```
+sudo vim /opt/tomcat/conf/tomcat-users.xml
+```
+
+* Adicione as regras, dentro da tag <tomcat-users>
+```
+<role rolename="manager"/>
+<role rolename="admin"/>
+<role rolename="admin-script"/>
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<role rolename="manager-xml"/>
+<role rolename="manager-status"/>
+<role rolename="admin-gui"/>
+<user username="admin" password="SuaSenha" roles="admin,admin-gui,manager,managergui,manager-status,manager-script,manager-xml,admin-script"/>
+```
+
+* Agora vamos liberar o acesso a conexão remota ao Tomcat Manager. Para isso, crie ou edite o arquivo e cole o conteúdo a seguir 
+
+* OBS: O campo “allow” define quais os endereços terão acesso à conexão remota ao Tomcat Manager. No exemplo abaixo, estão liberados todos os endereços. Para liberar o acesso somente a um endereço específico ou rede, substitua o conteúdo entre aspas pelo endereço desejado
+
+```
+sudo su
+
+vim /opt/tomcat/conf/Catalina/localhost/manager.xml
+
+<Context privileged="true" antiResourceLocking="false" docBase="$CATALINA_HOME/webapps/manager">
+<Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="^.*$" />
+</Context>
+```
+
+* Para liberar o acesso a role host-manager altere o seguinte arquivo e assim como no passo anterior, será necessário definir o campo allow
+```
+sudo su
+
+vim /opt/tomcat/webapps/host-manager/META-INF/context.xml
+
+// Cole ou somente altere código conforme necessário
+<Context antiResourceLocking="false" privileged="true" >
+<Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="^.*$" />
+</Context>
+```
+
+* Vamos agora editar o arquivo, /etc/rc.local e inclua o caminho do startup.sh para realizar todo o processo de forma automatica
+```
+sudo vim /etc/rc.local
+```
+```
+/opt/tomcat/bin/startup.sh
+```
+
+OBS: Não esqueça de liberar a porta padrão do Tomcat 8080 no servidor.
+
+<hr /><hr />
+
+### Referências
+
+* CRISTIANE PASCHOALI DE OLIVEIRA VIDOVIX 
+* UBIRATAN ZAKAIB DO NASCIMENTO
+
+### Instituto Federal de Educação, Ciência e Tecnologia de São Paulo, Campus Votuporanga
